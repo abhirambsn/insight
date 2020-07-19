@@ -1,0 +1,76 @@
+{% extends 'base/passport.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col s6">
+            <img src="https://source.unsplash.com/random/682x775" alt="">
+        </div>
+        <div class="col s6">
+            <h2 class="center">Hello</h2><br>
+            <h5 class="center">Register Here</h5><br>
+            <form action="#" method="POST" class="col s12">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row">
+                        <div class="input-field">
+                          <i class="material-icons prefix">account_circle</i>
+                          <input id="username" type="text" class="validate" name="username">
+                          <label for="username">Username</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">email</i>
+                            <input id="email" type="email" class="validate" name="email">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field">
+                          <i class="material-icons prefix">lock</i>
+                          <input id="password" type="password" class="validate" name="password">
+                          <label for="password">Password</label>
+                        </div>
+                        <div class="input-field">
+                          <i class="material-icons prefix">lock</i>
+                          <input id="password2" type="password" class="validate" name="password2">
+                          <label for="password2">Confirm Password</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">account_box</i>
+                            <input id="first_name" type="text" class="validate" name="first_name">
+                            <label for="first_name">First Name</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">account_box</i>
+                            <input id="last_name" type="text" class="validate" name="last_name">
+                            <label for="last_name">Last Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select name="plan" id="plan">
+                              <option value="" disabled selected>Choose Plan</option>
+                              <option value="trial">30-day Trial Plan</option>
+                              <option value="monthly">Monthly Plan @ INR 99</option>
+                              <option value="annual">Annual Plan @ INR 999</option>
+                            </select>
+                            <label for="plan">Select Plan</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select name="color_accent" id="color_accent">
+                                <option value="" disabled selected>Choose Color accent of Dashboard</option>
+                                <option value="blue">Blue</option>
+                                <option value="green">Green</option>
+                                <option value="pink">Pink</option>
+                                <option value="red">Red</option>
+                            </select>
+                            <label for="color_accent">Select Color Accent</label>
+                        </div>
+                        <br>
+                        <div class="input-field">
+                            <center><button type="submit" class="btn waves-effect waves-light blue btn-large center" name="action">Register
+                                <i class="material-icons right">send</i>
+                            </button></center>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
