@@ -1,0 +1,10 @@
+FROM ubuntu:latest
+LABEL author="Abhiram B.S.N"
+COPY ../src /data
+WORKDIR /data
+RUN "apt-get update"
+RUN "apt-get install python3 python3-pip"
+RUN "pip install pipenv"
+RUN "pipenv --python 3.8"
+RUN "pipenv install django psycopg2-binary gunicorn"
+RUN "pipenv run gunicorn app:app"

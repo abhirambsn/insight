@@ -11,6 +11,7 @@ BASE_CONTEXT = {
 def register(request):
     if request.method == "POST":
         data = request.POST
+        files = request.FILES
         # Please put these stmts in try/except
         username = data.get("username")
         password = data.get("password")

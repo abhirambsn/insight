@@ -1,0 +1,7 @@
+**/db.*
+**/__pycache__/
+**/config.json
+Pipfile
+Pipfile.lock
+.vscode/
+**/media/

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
-import uuid
+import uuid, os
 # Create your models here.
 
 colorChoices = [
@@ -32,6 +32,9 @@ class Passport(models.Model):
     def verify_access_token(self, password):
         return check_password(password, self.passport_access_token)
 
+def get_upload_path(instance, filename):
+    return os.path.join(instance.profile_id + "_" + filename)
+
 class Profile(models.Model):
     linked_passport = models.OneToOneField(Passport, on_delete=models.CASCADE)
     profile_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -41,4 +44,4 @@ class Profile(models.Model):
     plan = models.CharField(max_length=15, null=False, blank=False, choices=planChoices)
     isTrial = models.BooleanField(blank=False, null=False)
     validity = models.IntegerField(blank=False, null=False)
-    
+    profile_picture = models.FileField(upload_to=get_upload_path, null=False, blank=False)
