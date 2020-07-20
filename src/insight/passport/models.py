@@ -33,7 +33,7 @@ class Passport(models.Model):
         return check_password(password, self.passport_access_token)
 
 def get_upload_path(instance, filename):
-    return os.path.join(instance.profile_id + "_" + filename)
+    return os.path.join(str(instance.profile_id) + "_" + filename)
 
 class Profile(models.Model):
     linked_passport = models.OneToOneField(Passport, on_delete=models.CASCADE)
@@ -45,3 +45,11 @@ class Profile(models.Model):
     isTrial = models.BooleanField(blank=False, null=False)
     validity = models.IntegerField(blank=False, null=False)
     profile_picture = models.FileField(upload_to=get_upload_path, null=False, blank=False)
+
+def get_def_money_left(instance):
+    return instance.income
+
+class Income(models.Model):
+    linked_passport = models.OneToOneField(Passport, on_delete=models.CASCADE, primary_key=True)
+    income = models.IntegerField(null=False, blank=False, default=0)
+    money_left = models.IntegerField(null=False, blank=False, default=get_def_money_left)

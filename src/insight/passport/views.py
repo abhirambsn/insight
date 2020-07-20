@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from .models import Passport, Profile
+from .models import Passport, Profile, Income
 import os
 
 BASE_CONTEXT = {
@@ -25,6 +25,7 @@ def register(request):
         last_name = data.get("last_name")
         plan = data.get("plan")
         color_accent = data.get("color_accent")
+        income = data.get("income")
         validity = 0
         isTrial = False
         if (plan == "trial"):
@@ -36,8 +37,10 @@ def register(request):
             validity = 365
         newPassport = Passport(passport_holder_name=username, passport_access_token=password, passport_address=email)
         newPassport.save()
-        newProfile = Profile(linked_passport=newPassport, first_name=first_name, last_name=last_name, color_accent=color_accent, plan=plan, isTrial=isTrial, validity=validity)
+        newProfile = Profile(linked_passport=newPassport, first_name=first_name, last_name=last_name, color_accent=color_accent, plan=plan, isTrial=isTrial, validity=validity, profile_picture=files.get("profile_picture"))
         newProfile.save()
+        newIncome = Income(linked_passport=newPassport, income=income)
+        newIncome.save()
         request.session['mtype'] = "success"
         request.session['message'] = "Registration Successful"
         return redirect('/passport/auth/login')

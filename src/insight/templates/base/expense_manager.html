@@ -22,13 +22,25 @@
 </head>
 <body>
     <header>
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="#!" class="black-text"><i class="material-icons">person</i>Profile</a></li>
+            <li><a href="#!" class="black-text"><i class="material-icons">settings</i>Settings</a></li>
+            <li><a class="waves-effect red-text" href="/passport/auth/logout/"><i class="material-icons red-text">power_settings_new</i>Logout</a></li>
+        </ul>
         <nav>
             <div class="nav-wrapper white">
-              <a href="#" class="brand-logo black-text">Logo</a>
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="sass.html" class="black-text">Sass</a></li>
-                <li><a href="badges.html" class="black-text">Components</a></li>
-                <li><a href="collapsible.html" class="black-text">JavaScript</a></li>
+              <a href="#" class="brand-logo black-text" style="padding-left: 10px;">{{ appname }}</a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">  
+                    <li>
+                        <form>
+                            <div class="input-field">
+                            <input id="search" class="black-text" type="search" placeholder="Search for Expenses" required>
+                            <label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
+                            <i class="material-icons black-text">close</i>
+                            </div>
+                        </form>
+                    </li>
+                    <li><a class="dropdown-trigger black-text" href="#!" data-target="dropdown1">{{ passport.passport_holder_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
               </ul>
             </div>
         </nav>        
@@ -38,15 +50,19 @@
           <div class="background">
             <img src="https://source.unsplash.com/random/800x600">
           </div>
-          <a href="#user"><img class="circle" src="https://source.unsplash.com/random/800x600"></a>
-          <a href="#name"><span class="white-text name">John Doe</span></a>
-          <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-        </div></li>
-        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-        <li><a href="#!">Second Link</a></li>
+          <a href="#user"><img class="circle" src="{{ profile.profile_pic }}"></a>
+          <a href="#name"><span class="white-text name">{{ profile.first_name }} {{ profile.last_name }}</span></a>
+          <a href="#email"><span class="white-text email">{{ passport.passport_address }}</span></a>
+        </div></li> 
+        <li><a href="/expense_manager/dashboard/" class="waves-effect blue-text"><i class="material-icons blue-text">dashboard</i>My Dashboard</a></li>
+        <li><a href="/expense_manager/add/" class="waves-effect"><i class="material-icons">add</i>Add Expense</a></li>
+        <li><a href="/expense_manager/all/" class="waves-effect"><i class="material-icons">view_list</i>All Expenses</a></li>
+        <li><a href="/expense_manager/report/mail/" class="waves-effect"><i class="material-icons">email</i>Email Expense Report</a></li>
+        <li><a href="/expense_manager/report/download/" class="waves-effect"><i class="material-icons">book</i>Download Expense Report</a></li>
         <li><div class="divider"></div></li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        <li><a href="/contact_us/" class="waves-effect blue-text"><i class="material-icons blue-text">question_answer</i>Contact Us</a></li>
+        <li><a href="/payments/history/" class="waves-effect green-text"><i class="material-icons green-text">receipt</i>Payment History</a></li>
+        <li><a href="/payments/my_subscription/" class="waves-effect pink-text"><i class="material-icons pink-text">style</i>Manage your Subscription</a></li>
     </ul>
     <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <main>
@@ -56,5 +72,11 @@
     <footer>
 
     </footer>
+    <script>
+        var dropdowns = document.querySelectorAll('.dropdown-trigger')
+        for (var i = 0; i < dropdowns.length; i++){
+            M.Dropdown.init(dropdowns[i]);
+        }
+    </script>
 </body>
 </html>
