@@ -27,7 +27,7 @@ class Passport(models.Model):
     passport_updated_on = models.DateTimeField(auto_now_add=True)
     passport_is_verified = models.BooleanField(null=False, blank=False, default=False)
 
-    def save(self, *args, **kwargs):
+    def save_password(self, *args, **kwargs):
         self.passport_access_token = make_password(self.passport_access_token)
         super(Passport, self).save(*args, **kwargs)
     

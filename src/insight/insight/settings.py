@@ -11,21 +11,23 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+CONFIG_FILE = open(os.path.join("..", "config.json"), "r")
+config  = json.loads(CONFIG_FILE.read())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+kij0)=)o36)944%=38k4$4y1v+w60*_hta-jub^^s(5%+jv@u'
+SECRET_KEY = config.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.get("DEBUG")
 
-APP_NAME=os.getenv("APP_NAME", "Insight")
+APP_NAME=config.get("APP_NAME")
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,11 +89,11 @@ MAINTENANCE_MODE = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "insight",
-        'USER': "insight",
-        'PASSWORD': "insight",
-        'HOST': 'localhost',
-        'PORT': 5432
+        'NAME': config.get("DATABASE_NAME"),
+        'USER': config.get("DATABASE_USER"),
+        'PASSWORD': config.get("DATABASE_PASSWORD"),
+        'HOST': config.get("DATABASE_HOST"),
+        'PORT': config.get("DATABASE_PORT")
     }
 }
 
@@ -115,17 +118,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'elflord.computers@gmail.com'
-EMAIL_HOST_PASSWORD="Abhiram@2008"
+EMAIL_HOST = config.get("EMAIL_HOST")
+EMAIL_USE_TLS = config.get("EMAIL_USE_TLS")
+EMAIL_PORT = config.get("EMAIL_PORT")
+EMAIL_HOST_USER = config.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD= config.get("EMAIL_HOST_PASSWORD")
 
 # Stripe Config
-STRIPE_TEST_PUBLIC_KEY="pk_test_0cDfsMytLAFs4q2tKSGPgKKx00x4cIpm6t"
-STRIPE_TEST_SECRET_KEY="sk_test_nFZBbeYSnp0UMawuIAtUCJNX00qI2V8o4a"
-STRIPE_LIVE_MODE = False
-DJSTRIPE_WEBHOOK_SECRET = "whsec_sjdkfjekfjerwiekvjwaiefvfegrhnevihueiafoe"
+STRIPE_TEST_PUBLIC_KEY= config.get("STRIPE_TEST_PUBLIC_KEY")
+STRIPE_TEST_SECRET_KEY= config.get("STRIPE_TEST_SECRET_KEY")
+STRIPE_LIVE_MODE = config.get("STRIPE_LIVE_MODE")
+#DJSTRIPE_WEBHOOK_SECRET = "whsec_sjdkfjekfjerwiekvjwaiefvfegrhnevihueiafoe"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -147,9 +150,10 @@ USE_TZ = True
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
+
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
 MEDIA_URL = '/media/'
 

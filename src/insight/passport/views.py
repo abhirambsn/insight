@@ -28,38 +28,41 @@ def register(request):
         data = request.POST
         files = request.FILES
         # Please put these stmts in try/except
-        username = data.get("username")
-        password = data.get("password")
-        password2 = data.get("password2")
-        if (not (password == password2) and not len(password) > 6):
-            request.session['mtype'] = "error"
-            request.session['message'] = "Password Mismatch or Length is less than 6 characters."
-            return redirect('/passport/auth/register')
-        email = data.get("email")
-        first_name = data.get("first_name")
-        last_name = data.get("last_name")
-        income = int(data.get("income"))
-        colorAccent = data.get("color_accent")
-        newPassport = Passport(passport_holder_name=username, passport_access_token=password, passport_address=email)
-        newPassport.save()
-        newProfile = Profile(linked_passport=newPassport, first_name=first_name, last_name=last_name, color_accent=colorAccent, profile_picture=files['profile_picture'])
-        newProfile.save()
-        newIncome = Income(linked_passport=newPassport, money_left=income, income=income)
-        newIncome.save()
-        request.session['mtype'] = "success"
-        request.session['message'] = "Registration Successful"
-        request.session['passport'] = str(newPassport.passport_id)
-        current_site = get_current_site(request)
-        subject = 'Activate Your Insight Account'
-        message = render_to_string('base/activation_email.html', {
-                'user': newPassport,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(str(newPassport.passport_id))),
-                'token': account_activation_token.make_token(newPassport),
-            })
-        emailMessage = EmailMessage(subject, message, 'elflord.computers@gmail.com', [email])
-        emailMessage.send()
-        return redirect('/payments/pricing/')
+        try:
+            username = data.get("username")
+            password = data.get("password")
+            password2 = data.get("password2")
+            if (not (password == password2) and not len(password) > 6):
+                request.session['mtype'] = "error"
+                request.session['message'] = "Password Mismatch or Length is less than 6 characters."
+                return redirect('/passport/auth/register')
+            email = data.get("email")
+            first_name = data.get("first_name")
+            last_name = data.get("last_name")
+            income = int(data.get("income"))
+            colorAccent = data.get("color_accent")
+            newPassport = Passport(passport_holder_name=username, passport_access_token=password, passport_address=email)
+            newPassport.save_password()
+            newProfile = Profile(linked_passport=newPassport, first_name=first_name, last_name=last_name, color_accent=colorAccent, profile_picture=files['profile_picture'])
+            newProfile.save()
+            newIncome = Income(linked_passport=newPassport, money_left=income, income=income)
+            newIncome.save()
+            request.session['mtype'] = "success"
+            request.session['message'] = "Registration Successful"
+            request.session['passport'] = str(newPassport.passport_id)
+            current_site = get_current_site(request)
+            subject = 'Activate Your Insight Account'
+            message = render_to_string('base/activation_email.html', {
+                    'user': newPassport,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(str(newPassport.passport_id))),
+                    'token': account_activation_token.make_token(newPassport),
+                })
+            emailMessage = EmailMessage(subject, message, 'elflord.computers@gmail.com', [email])
+            emailMessage.send()
+            return redirect('/payments/pricing/')
+        except Exception as e:
+            print(str(e))
     else:
         CTX = {
             'color_accent': colorChoices
