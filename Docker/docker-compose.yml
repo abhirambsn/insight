@@ -1,0 +1,22 @@
+version: '3.7'
+
+services: 
+    web:
+        build: ./src/insight
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes: 
+            - ./src/insight/:/usr/src/
+        ports: 
+            - 8000:8000
+    
+    db:
+        image: postgres:latest
+        volumes: 
+            - postgres_data:/var/lib/postgresql/data/
+        environment: 
+            - POSTGRES_USER: insight
+            - POSTGRES_PASSWORD: insight
+            - POSTGRES_DB: insight
+
+volumes: 
+    postgres_data:
