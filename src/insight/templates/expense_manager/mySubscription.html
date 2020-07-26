@@ -1,0 +1,28 @@
+{% extends 'base/expense_manager.html' %}
+{% block title %}Your Subscription{% endblock %}
+{% block content %}
+{% load mathfilters %}
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <h3 class="center">Subscription Details</h3>
+            <hr>
+            <p>
+                <h6><b>Plan:</b> {{ subscription.plan|title }}</h6>
+                <h6><b>Validity: </b> {{ subscription.validity }}</h6>
+                <h6><b>No of Days Left: </b> {{ days_left }} Days Left</h6>
+                <hr>
+                {% if isexp %}
+                    <center><button class="btn waves-effect blue center" type="button" onclick="window.location.href='/payments/renew/'"><i class="material-icons right">autorenew</i>
+                        Renew Plan
+                    </button></center>
+                {% else %}
+                    <center><button disabled class="btn waves-effect blue center" type="button" onclick="window.location.href='/payments/renew/'"><i class="material-icons right">autorenew</i>
+                        Renew Plan
+                    </button></center>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

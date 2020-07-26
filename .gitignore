@@ -6,3 +6,4 @@ Pipfile.lock
 .vscode/
 **/media/
 **/migrations/
+**/maintenance_mode_state.txt

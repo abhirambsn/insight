@@ -1,4 +1,26 @@
 {% extends 'base/expense_manager.html' %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Expense - {{ expense.expense_id }}{% endblock %}
 {% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-content">
+            <h3 class="center">Expense Details</h3>
+            <h6 class="center"><b>Expense ID:</b>    {{ expense.expense_id }}</h6><br><br>
+            <form>
+                <div class="input-field col s6">
+                    <input disabled type="text" class="disabled" value="{{ expense.expense_name }}" id="expenseName">
+                    <label for="expenseName">Expense Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled type="number" class="disabled" value="{{ expense.expense_cost }}" id="expenseCost">
+                    <label for="expenseCost">Expense Cost</label>
+                </div>
+                <div class="input-field">
+                    <input disabled type="text" class="disabled" value="{{ expense.expense_created_on }}" id="expenseDate">
+                    <label for="expenseDate">Date</label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

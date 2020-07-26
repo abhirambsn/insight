@@ -1,4 +1,46 @@
 {% extends 'base/expense_manager.html' %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
+{% load mathfilters %}
+<div class="">
+    <div class="row">
+        <div class="col s12">
+            <div class="card blue">
+                <div class="card-content">
+                    <p class="white-text center">Welcome, <b>{{ profile.first_name }} {{ profile.last_name }}</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s3">
+            <div class="card green">
+                <div class="card-content">
+                    <p class="white-text center">Monthly Income <br><b>{{ income.income }}</b></p>
+                </div>
+            </div>
+        </div>
+        <div class="col s3">
+            <div class="card pink">
+                <div class="card-content">
+                    <p class="white-text center">Money Left <br><b>{{ income.money_left }}</b></p>
+                </div>
+            </div>
+        </div>
+        <div class="col s3">
+            <div class="card yellow">
+                <div class="card-content">
+                    <p class="black-text center">Money Spent <br><b>{{ income.income|sub:income.money_left }}</b></p>
+                </div>
+            </div>
+        </div>
+        <div class="col s3">
+            <div class="card" style="background-color: chartreuse;">
+                <div class="card-content">
+                    <p class="black-text center">Savings (Till last month) <br><b>{{ income.savings }}</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

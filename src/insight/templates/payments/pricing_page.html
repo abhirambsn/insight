@@ -1,0 +1,65 @@
+{% extends 'base/payments.html' %}
+{% block title %}Pricing{% endblock %}
+{% block content %}
+<div class="container">
+    <h3 class="center">Pricing Plans</h3>
+    <div class="row">
+        <div class="col s6">
+            <div class="card">
+                <div class="card-title-div blue">
+                    <h5 class="center white-text">Annual Plan</h6>
+                    <h6 class="center white-text"><b>INR 999 / month</b></h6>
+                    <br>
+                </div>
+                <div class="card-content">
+                    <p class="center">***<b>Features</b></p>
+                    <hr>
+                    <form action="/payments/checkout/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="plan_type" id="ptype" value="annual">
+                        <button style="width: 100%;" type="submit" class="btn waves-effect pink center">Buy Now
+                            <i class="material-icons right">attach_money</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col s6">
+            <div class="card">
+                <div class="card-title-div green">
+                    <h5 class="center white-text">Monthly Plan</h6>
+                    <h6 class="center white-text"><b>INR 99 / month</b>   </h6>
+                    <br>
+                </div>
+                <div class="card-content">
+                    <p class="center">***<b>Features</b></p>
+                    <hr>
+                    <form action="/payments/checkout/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="plan_type" id="ptype" value="monthly">
+                        <button style="width: 100%;" type="submit" class="btn waves-effect pink center">Buy Now
+                            <i class="material-icons right">attach_money</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<section>
+    <p class="title">Pricing Plans</p>
+    <div class="columns">
+      {% for product in products %}
+        <div class="column">
+          <p class="subtitle">{{ product.name }}</p>
+          {% for plan in product.plan_set.all %}
+            <div>
+              <p class="heading">{{ plan.nickname }}</p>
+              <p>{{ plan.human_readable_price }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+</section>-->
+{% endblock %}

@@ -2,14 +2,98 @@
 {% load static %}
 {% block title %}Register{% endblock %}
 {% block content %}
-    <div class="row">
+    <div class="container" style="width: 60%; padding-top: 50px;">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <h5 class="center">Register</h5>
+                        <p class="center">Create a Insight Account</p>
+                        <br>
+                        <div class="row">
+                            <div class="col s12">
+                                <form action="#" enctype="multipart/form-data" method="post">
+                                    {% csrf_token %}
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col s6 input-field">
+                                                <i class="material-icons prefix">account_circle</i>
+                                                <input id="username" type="text" class="validate" name="username">
+                                                <label for="username">Username</label>
+                                            </div>
+                                            <div class="col s6 input-field">
+                                                <i class="material-icons prefix">email</i>
+                                                <input id="email" type="email" class="validate" name="email">
+                                                <label for="email">Email</label>
+                                            </div>
+                                            <div class="col s6 input-field">
+                                                <i class="material-icons prefix">lock</i>
+                                                <input id="password" type="password" class="validate" name="password">
+                                                <label for="password">Password</label>
+                                            </div>
+                                            <div class="col s6 input-field">
+                                                <i class="material-icons prefix">lock</i>
+                                                <input id="password2" type="password" class="validate" name="password2">
+                                                <label for="password2">Confirm Password</label>
+                                            </div>
+                                            <div class="col s6 input-field">
+                                                <i class="material-icons prefix">account_box</i>
+                                                <input id="first_name" type="text" class="validate" name="first_name">
+                                                <label for="first_name">First Name</label>
+                                            </div>
+                                            <div class="col s6 input-field">
+                                                <i class="material-icons prefix">account_box</i>
+                                                <input id="last_name" type="text" class="validate" name="last_name">
+                                                <label for="last_name">Last Name</label>
+                                            </div>
+                                            <div class="col s6 input-field">
+                                                <i class="material-icons prefix">attach_money</i>
+                                                <input id="income" type="number" class="validate" name="income">
+                                                <label for="income">Income</label>
+                                            </div>
+                                            <div class="col s6 input-field">
+                                                <select name="color_accent" id="color_accent">
+                                                    {% for colAc in color_accent %}
+                                                        <option value="{{ colAc.0 }}">{{ colAc.1 }}&nbsp;&nbsp;<img src="{% static 'img/'|add:colAc.0|add:'.png' %}" height="10px" width="10px" alt=""></option>
+                                                    {% endfor %}
+                                                </select>
+                                                <label for="color_accent">Color Accent</label>
+                                            </div>
+                                            <div class="file-field col s12 input-field">
+                                                <div class="btn blue">
+                                                <span>Upload</span>
+                                                <input type="file" name="profile_picture" accept="image/*">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text" placeholder="Choose a Picture for your profile">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <p class="center blue-text"><a href="/passport/auth/login/"><b>Existing User? Sign in here</b></a></p>
+                                            <br>
+                                            <div class="col s12 input-field">
+                                                <center><button type="submit" class="btn waves-effect waves-light blue center" name="action">Register
+                                                    <i class="material-icons right">send</i>
+                                                </button></center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="row">
         <div class="col s6">
             <img src="https://source.unsplash.com/random/682x800" alt="">
         </div>
         <div class="col s6">
             <h2 class="center">Hello</h2><br>
             <h5 class="center">Register Here</h5><br>
-            <form action="#" method="POST" class="col s12">
+            <form action="#" enctype="multipart/form-data" method="POST" class="col s12">
                 {% csrf_token %}
                 <div class="container">
                     <div class="row">
@@ -48,24 +132,13 @@
                             <input id="income" type="number" class="validate" name="income">
                             <label for="income">Income</label>
                         </div>
-                        <div class="input-field col s6">
-                            <select name="plan" id="plan">
-                              <option value="" disabled selected>Choose Plan</option>
-                              <option value="trial">30-day Trial Plan</option>
-                              <option value="monthly">Monthly Plan @ INR 99</option>
-                              <option value="annual">Annual Plan @ INR 999</option>
-                            </select>
-                            <label for="plan">Select Plan</label>
-                        </div>
-                        <div class="input-field col s6">
+                        <div class="input-field">
                             <select name="color_accent" id="color_accent">
-                                <option value="" disabled selected>Choose Color accent of Dashboard</option>
-                                <option value="blue">Blue</option>
-                                <option value="green">Green</option>
-                                <option value="pink">Pink</option>
-                                <option value="red">Red</option>
+                                {% for colAc in color_accent %}
+                                    <option value="{{ colAc.0 }}">{{ colAc.1 }}&nbsp;&nbsp;<img src="{% static 'img/'|add:colAc.0|add:'.png' %}" height="10px" width="10px" alt=""></option>
+                                {% endfor %}
                             </select>
-                            <label for="color_accent">Select Color Accent</label>
+                            <label for="color_accent">Color Accent</label>
                         </div>
                         <div class="file-field input-field">
                             <div class="btn">
@@ -86,5 +159,5 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div>-->
 {% endblock %}

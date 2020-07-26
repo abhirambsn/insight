@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Accept a card payment</title>
+    <meta name="description" content="A demo of a card payment on Stripe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'js/client.js' %}" defer></script>
+  </head>
+  <body>
+    <!-- Display a payment form -->
+    <form id="payment-form">
+      <center><h4>Payment by Card</h4><h5><b>Plan:</b> {{ plan|title }}</h5><h6><b>Price:</b> INR {{ price }}</h6></center><br>
+      <div class="input-field">
+        <i class="material-icons prefix">email</i>
+        <input type="text" id="email" placeholder="Email address" />
+      </div>
+      <input type="hidden" name="plan" value="{{ plan }}">
+      <input type="hidden" name="plan_price" id="{{ price }}">
+      <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+      <button id="submit">
+        <div class="spinner hidden" id="spinner"></div>
+        <span id="button-text">Pay</span>
+      </button>
+      <p id="card-error" role="alert"></p>
+      <p class="result-message hidden">
+        Payment succeeded, see the result in your
+        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+      </p>
+    </form>
+  </body>
+</html> 

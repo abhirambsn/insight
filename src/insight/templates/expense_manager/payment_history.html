@@ -1,0 +1,26 @@
+{% extends 'base/expense_manager.html' %}
+{% block title %}Payment History{% endblock %}
+{% block content %}
+<div class="container">
+    <table class="striped responsive-table">
+        <thead>
+          <tr>
+              <th>S.N.</th>
+              <th>Payment ID</th>
+              <th>Payment Amount</th>
+              <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ payment.payment_id }}</td>
+                    <td>{{ payment.payment_amount }}</td>
+                    <td>{{ payment.date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

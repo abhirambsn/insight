@@ -1,4 +1,183 @@
 {% extends 'base/expense_manager.html' %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Profile{% endblock %}
 {% block content %}
+{% load mathfilters %}
+<div class="row">
+    <div class="col s5">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="center">Profile Picture</h5>
+                <hr>
+                <img src="{{ profile.profile_picture.url }}" height="300px" width="300px" alt="" class="circle center">
+                <form action="/passport/profile/change_picture/" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <div class="input-field">
+                        <center>
+                            <br>
+                            <input type="file" id="selectedFile" name="profile_picture" required/>
+                        </center>
+                    </div>
+                    <div class="input-field">
+                        <br>
+                        <br>
+                        <center><button class="btn waves-effect blue center" type="submit">Change Picture</button></center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col s7">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="center">Credential (Passport) Details</h5>
+                <hr>
+                <form>
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="input-field">
+                                <input type="text" value="{{ profile.first_name }}" class="disabled" id="fname" disabled>
+                                <label for="fname">First Name</label>
+                            </div>  
+                        </div>
+                        <div class="col s6">
+                            <div class="input-field">
+                                <input type="text" value="{{ profile.last_name }}" class="disabled" id="lname" disabled>
+                                <label for="lname">Last Name</label>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="input-field">
+                                <input type="text" name="username" id="uname" value="{{ passport.passport_holder_name }}" class="disabled" disabled>
+                                <label for="uname">Username</label>
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <div class="input-field">
+                                <input type="email" name="email" id="email" value="{{ passport.passport_address }}" class="disabled" disabled>
+                                <label for="email">Email ID</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="input-field">
+                                Created On
+                                <input type="datetime" name="created" id="c_on" value="{{ passport.passport_created_on }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <div class="input-field">
+                                Modified On
+                                <input type="datetime" name="modified" id="m_on" value="{{ passport.passport_updated_on }}" class="active" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <h5 class="center">Color Accent</h5>
+                <hr><br>
+                <div class="row">
+                    <form action="/passport/profile/change_color_accent/" method="post">
+                        {% csrf_token %}
+                        <div class="col s6 input-field">
+                            <select name="color_accent" id="color_accent">
+                                {% for colAc in color_accent %}
+                                    {% if profile.color_accent == colAc.0 %}
+                                        <option value="{{ colAc.0 }}" selected>{{ colAc.1 }}</option>
+                                    {% else %}
+                                        <option value="{{ colAc.0 }}" >{{ colAc.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            <label for="color_accent">Color Accent</label>
+                        </div>
+                        <div class="col s6 input-field">
+                            <center><button class="btn waves-effect blue center" type="submit">Change Color Accent</button></center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="center">Income Details</h5>
+                <hr>
+                <form>
+                    <div class="row">
+                        <div class="col s3 input-field">
+                            <input type="number" name="income" id="income" value="{{ income.income }}" disabled>
+                            <label for="income">Income (Monthly)</label>
+                        </div>
+                        <div class="col s3 input-field">
+                            <input type="number" name="sp" id="sp" value="{{ income.income|sub:income.money_left }}" disabled>
+                            <label for="sp">Money Spent</label>
+                        </div>
+                        <div class="col s3 input-field">
+                            <input type="number" name="ml" id="ml" value="{{ income.money_left }}" disabled>
+                            <label for="ml">Money Left</label>
+                        </div>
+                        <div class="col s3 input-field">
+                            <input type="number" name="savings" id="savings" value="{{ income.savings }}" disabled>
+                            <label for="savings">Savings</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input type="text" name="type" id="tp" value="{{ status }} / month" disabled>
+                            <label for="tp">Rate of Expenditure</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if status_pct == 0 %}
+                            <div class="col s6">
+                                <p class="center" style="color: green; font-weight: bold;">No Expenses Here, Start Adding Expenses to track your status</p>
+                            </div>
+                        {% elif status_pct > 0 and status_pct <= 30 %}
+                            <div class="col s6">
+                                <div class="progress">
+                                    <div class="determinate green" style="width: {{ status_pct }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <b>{{ status_pct }} %</b>&nbsp; <p style="color: green; font-weight: bold;">Low Spending Rate</p>
+                            </div>
+                        {% elif status_pct > 30 and status_pct <= 60 %}
+                            <div class="col s6">    
+                                <div class="progress">
+                                        <div class="determinate blue" style="width: {{ status_pct }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <b>{{ status_pct }} %</b>&nbsp; <p style="color: blue; font-weight: bold;">Average Spending Rate</p>
+                            </div>
+                        {% elif status_pct > 60 and status_pct <= 90 %}
+                            <div class="col s6">
+                                <div class="progress">
+                                    <div class="determinate pink" style="width: {{ status_pct }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <b>{{ status_pct }} %</b>&nbsp; <p style="color: magenta; font-weight: bold;">High Spending Rate</p>
+                            </div>
+                        {% else %}
+                            <div class="col s6">
+                                <div class="progress">
+                                    <div class="determinate red" style="width: {{ status_pct }}%;"></div>
+                                </div>
+                            <div class="col s6">
+                                <b>{{ status_pct }} %</b>&nbsp; <p style="color: red; font-weight: bold;">Extemely High Spending Rate</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -7,16 +7,24 @@
             <h3 class="center">Add Expense</h3>
             <p class="center">Fill the necessary details</p><br>
             <form action="#" method="post">
+                {% csrf_token %}
                 <div class="row">
                     <div class="input-field">
                         <i class="material-icons prefix">add_to_photos</i>
-                        <input id="expense_name" name="expense_name" type="text" class="validate">
-                        <label for="expense_name">Expense Name</label>
+                        <input id="expense_name" name="expense_name" type="text" class="validate" required>
+                        <label for="expense_name">Expense Name<sup style="color: red;">*</sup></label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">attach_money</i>
-                        <input id="expense_cost" name="expense_cost" type="number" class="validate">
-                        <label for="expense_cost">Expense Cost</label>
+                        <input id="expense_cost" name="expense_cost" type="number" class="validate" required>
+                        <label for="expense_cost">Expense Cost<sup style="color: red;">*</sup></label>
+                    </div>
+                    <div class="input-field">
+                        <select name="expense_type" id="expense_type" required>
+                            <option value="R">Monthly Recurring</option>
+                            <option value="NR">Non Recurring</option>
+                        </select>
+                        <label for="expense_type">Expense Type<sup style="color: red;">*</sup></label>
                     </div>
                     <div class="input-field">
                         <center><button type="submit" class="btn waves-effect waves-light blue center" name="action">Add Expense

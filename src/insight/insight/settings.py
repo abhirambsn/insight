@@ -27,7 +27,7 @@ DEBUG = True
 
 APP_NAME=os.getenv("APP_NAME", "Insight")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -39,9 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'expense_manager',
-    'passport',
-    'payments'
+    'expense_manager.apps.ExpenseManagerConfig',
+    'passport.apps.PassportConfig',
+    'payments.apps.PaymentsConfig',
+    'index.apps.IndexConfig',
+    'mathfilters',
+    'maintenancemode',
+    'admin_honeypot'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'maintenancemode.middleware.MaintenanceModeMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -74,14 +79,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'insight.wsgi.application'
 
-
+MAINTENANCE_MODE = False
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': "insight",
+        'USER': "insight",
+        'PASSWORD': "insight",
+        'HOST': 'localhost',
+        'PORT': 5432
     }
 }
 
@@ -104,6 +113,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'elflord.computers@gmail.com'
+EMAIL_HOST_PASSWORD="Abhiram@2008"
+
+# Stripe Config
+STRIPE_TEST_PUBLIC_KEY="pk_test_0cDfsMytLAFs4q2tKSGPgKKx00x4cIpm6t"
+STRIPE_TEST_SECRET_KEY="sk_test_nFZBbeYSnp0UMawuIAtUCJNX00qI2V8o4a"
+STRIPE_LIVE_MODE = False
+DJSTRIPE_WEBHOOK_SECRET = "whsec_sjdkfjekfjerwiekvjwaiefvfegrhnevihueiafoe"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -127,6 +149,7 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = 'media/'
+STATIC_ROOT = '/static/'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
+MEDIA_URL = '/media/'
 

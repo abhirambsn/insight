@@ -1,0 +1,75 @@
+{% extends 'base/expense_manager.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="center">Credential Settings</h5>
+                <hr>
+                <form action="/passport/settings/change_password/" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input type="password" id="oldPassword" name="old_password" required>
+                            <label for="oldPassword">Current Password<sup style="color: red;">*</sup></label>
+                        </div>
+                        <div class="col s12 input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input type="password" id="Password" name="password" required>
+                            <label for="Password">New Password<sup style="color: red;">*</sup></label>
+                        </div>
+                        <div class="col s12 input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input type="password" id="rePassword" name="password2" required>
+                            <label for="rePassword">Re Enter Password<sup style="color: red;">*</sup></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col input-field">
+                            <center>
+                                <button class="btn waves-effect center"><i class="material-icons right">send</i>
+                                    Change Password
+                                </button>
+                            </center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="center">Income Settings</h5>
+                <hr>
+                <form action="/passport/settings/change_income/" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <i class="material-icons prefix">attach_money</i>
+                            <input type="number" name="oldIncome" id="oincome" value="{{ income.income }}" disabled>
+                            <label for="oincome">Current Income</label>
+                        </div>
+                        <div class="col s12 input-field">
+                            <i class="material-icons prefix">attach_money</i>
+                            <input type="number" name="newIncome" id="nincome" required>
+                            <label for="nincome">New Income<sup style="color: red;">*</sup></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <button type="submit" class="btn waves-effect center"><i class="material-icons right">attach_money</i>
+                                    Change Income
+                                </button>
+                            </center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
