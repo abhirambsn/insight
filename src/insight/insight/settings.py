@@ -15,7 +15,7 @@ import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CONFIG_FILE = open(os.path.join("..", "config.json"), "r")
+CONFIG_FILE = open(os.path.join(os.path.abspath("config.json")), "r")
 config  = json.loads(CONFIG_FILE.read())
 
 # Quick-start development settings - unsuitable for production

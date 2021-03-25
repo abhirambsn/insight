@@ -25,7 +25,7 @@ urlpatterns = [
     path('expense_manager/', include("expense_manager.urls")),
     path('payments/', include("payments.urls")),
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
-]
+] 
 
 handler404 = 'index.views.handler404'
 handler500 = 'index.views.handler500'

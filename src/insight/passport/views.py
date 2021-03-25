@@ -63,6 +63,7 @@ def register(request):
             return redirect('/payments/pricing/')
         except Exception as e:
             print(str(e))
+            raise
     else:
         CTX = {
             'color_accent': colorChoices
